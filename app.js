@@ -102,13 +102,20 @@ document.getElementById("exportBtn").addEventListener("click",()=>{
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="picabros-leads.csv"; a.click(); URL.revokeObjectURL(a.href);
 });
 
+const rootVars=getComputedStyle(document.documentElement);
+const chartInk=rootVars.getPropertyValue("--ink-soft").trim()||"#4a4f5b";
+const chartLine=rootVars.getPropertyValue("--line").trim()||"#edf1f5";
+Chart.defaults.color=chartInk;
+Chart.defaults.borderColor=chartLine;
+Chart.defaults.font.family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+
 new Chart(document.getElementById("leadChart"),{
   type:"line",
   data:{labels:["Apr","May","Jun","Jul","Aug","Sep"],datasets:[
     {label:"Leads",data:[48,55,60,74,88,110],borderColor:"#d9272e",backgroundColor:"rgba(217,39,46,.09)",fill:true,tension:.35},
     {label:"Booked",data:[19,24,27,33,40,49],borderColor:"#16a36a",backgroundColor:"transparent",tension:.35}
   ]},
-  options:{responsive:true,plugins:{legend:{position:"bottom"}},scales:{y:{beginAtZero:true,grid:{color:"#edf1f5"}},x:{grid:{display:false}}}}
+  options:{responsive:true,plugins:{legend:{position:"bottom"}},scales:{y:{beginAtZero:true,grid:{color:chartLine}},x:{grid:{display:false}}}}
 });
 
 new Chart(document.getElementById("sourceChart"),{
@@ -120,7 +127,7 @@ new Chart(document.getElementById("sourceChart"),{
 new Chart(document.getElementById("revenueChart"),{
   type:"bar",
   data:{labels:["Apr","May","Jun","Jul","Aug","Sep"],datasets:[{label:"Revenue",data:[9600,10900,10300,12700,14400,15920],backgroundColor:"#d9272e",borderRadius:8}]},
-  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:v=>"$"+(v/1000)+"k"},grid:{color:"#edf1f5"}},x:{grid:{display:false}}}}
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:v=>"$"+(v/1000)+"k"},grid:{color:chartLine}},x:{grid:{display:false}}}}
 });
 
 renderLeads(); renderCustomers(); renderKanban();
