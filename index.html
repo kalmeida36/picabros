@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pica Detailing Bros | Shop Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">PB</span>
+    <div>
+      <strong>Pica Detailing Bros</strong>
+      <small>Shop Console</small>
+    </div>
+  </div>
+  <nav>
+    <button class="nav-item active" data-view="dashboard">Dashboard</button>
+    <button class="nav-item" data-view="leads">Leads</button>
+    <button class="nav-item" data-view="pipeline">Pipeline</button>
+    <button class="nav-item" data-view="customers">Customers</button>
+    <button class="nav-item admin-only" data-view="admin">Admin</button>
+  </nav>
+  <div class="sidebar-footer">
+    <p>Need a detail?</p>
+    <a href="tel:12015550199" class="btn-call">Call (201) 555-0199</a>
+  </div>
+</aside>
+
+<main class="content">
+  <header class="topbar">
+    <h1 id="pageTitle">Dashboard</h1>
+    <div class="topbar-actions">
+      <span id="roleBadge" class="role-badge">Client View</span>
+      <button id="roleToggle" class="btn-ghost">Switch to Admin</button>
+    </div>
+  </header>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="view active">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <p class="eyebrow">Total Leads</p>
+        <h2 id="statLeads">0</h2>
+        <span class="trend up">+18% this month</span>
+      </div>
+      <div class="stat-card">
+        <p class="eyebrow">Open Pipeline Value</p>
+        <h2 id="statPipeline">$0</h2>
+        <span class="trend up">+9% this month</span>
+      </div>
+      <div class="stat-card">
+        <p class="eyebrow">Jobs Booked</p>
+        <h2 id="statBooked">0</h2>
+        <span class="trend up">This week</span>
+      </div>
+      <div class="stat-card">
+        <p class="eyebrow">Avg. Ticket</p>
+        <h2>$212</h2>
+        <span class="trend flat">Full Detail + add-ons</span>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="panel span-2">
+        <div class="panel-head">
+          <h3>Leads &amp; Bookings</h3>
+        </div>
+        <canvas id="leadChart" height="110"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Lead Sources</h3>
+        </div>
+        <canvas id="sourceChart" height="110"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="panel span-2">
+        <div class="panel-head">
+          <h3>Revenue</h3>
+        </div>
+        <canvas id="revenueChart" height="100"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Recent Leads</h3>
+          <button class="btn-link" data-jump="leads">View all</button>
+        </div>
+        <div id="recentLeads" class="lead-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADS -->
+  <section id="leads" class="view">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>All Leads</h3>
+        <div class="panel-actions">
+          <input id="leadSearch" type="search" placeholder="Search leads...">
+          <button id="exportBtn" class="btn-ghost">Export CSV</button>
+          <button id="addLeadBtn" class="btn-primary">+ New Lead</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Customer</th><th>Service</th><th>Source</th><th>Status</th><th>Est. Value</th><th>Date</th></tr>
+          </thead>
+          <tbody id="leadTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section id="pipeline" class="view">
+    <div id="kanban" class="kanban"></div>
+  </section>
+
+  <!-- CUSTOMERS -->
+  <section id="customers" class="view">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Customers</h3>
+      </div>
+      <div id="customerGrid" class="customer-grid"></div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin" class="view">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Shop Settings</h3>
+      </div>
+      <p class="muted">Admin-only controls live here — pricing, service menu, staff access, and integrations. This is a demo shell; wire it up to your real backend when ready.</p>
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h4>Service Menu</h4>
+          <p>Exterior Wash, Interior Detail, Full Detail, Ceramic Coating, Paint Correction, Engine Bay Cleaning</p>
+        </div>
+        <div class="admin-card">
+          <h4>Booking Window</h4>
+          <p>Mon–Sat, 8:00 AM – 6:00 PM</p>
+        </div>
+        <div class="admin-card">
+          <h4>Team</h4>
+          <p>3 detailers active</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog id="leadModal">
+  <form id="leadForm">
+    <h3>New Lead</h3>
+    <label>Name<input id="leadName" type="text" required></label>
+    <label>Phone<input id="leadPhone" type="tel" required></label>
+    <label>Service
+      <select id="leadService">
+        <option>Exterior Wash</option>
+        <option>Interior Detailing</option>
+        <option>Full Detail</option>
+        <option>Ceramic Coating</option>
+        <option>Paint Correction</option>
+        <option>Engine Bay Cleaning</option>
+      </select>
+    </label>
+    <label>Source
+      <select id="leadSource">
+        <option>Google Ads</option>
+        <option>Organic Search</option>
+        <option>Referral</option>
+        <option>Instagram</option>
+        <option>Direct</option>
+      </select>
+    </label>
+    <label>Estimated Value ($)<input id="leadValue" type="number" min="0" step="1"></label>
+    <label>Status
+      <select id="leadStatus">
+        <option>New</option>
+        <option>Contacted</option>
+        <option>Quoted</option>
+        <option>Booked</option>
+      </select>
+    </label>
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" onclick="leadModal.close()">Cancel</button>
+      <button id="saveLeadBtn" class="btn-primary">Save Lead</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="vendor/chart.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
